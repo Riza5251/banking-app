@@ -5,6 +5,8 @@ import net.javaguides.banking_app.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/account")
 public class Controller {
@@ -21,5 +23,18 @@ public class Controller {
     {
            AccountDto accountDto1= accountService.createAccount(accountDto);
            return ResponseEntity.ok(accountDto1);
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<AccountDto> getAccount(@PathVariable Long id)
+    {
+        AccountDto accountDto=accountService.getAccount(id);
+        return ResponseEntity.ok(accountDto);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<AccountDto>> getAllAccount()
+    {
+        List<AccountDto> accountDtos = accountService.getAllAccount();
+        return ResponseEntity.ok(accountDtos);
     }
 }

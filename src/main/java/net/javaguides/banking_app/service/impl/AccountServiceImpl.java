@@ -7,6 +7,10 @@ import net.javaguides.banking_app.repository.AccountRepository;
 import net.javaguides.banking_app.service.AccountService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -22,5 +26,19 @@ public class AccountServiceImpl implements AccountService {
         Account create =mapper.maptoaccount(accountDto);
         Account saved=accountRepository.save(create);
         return mapper.maptoaccountdto(saved);
+    }
+
+    @Override
+    public AccountDto getAccount(Long id) {
+      Account  account= accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account does not exist "));
+      return mapper.maptoaccountdto(account);
+
+    }
+
+    @Override
+    public List<AccountDto> getAllAccount() {
+        List<Account> list=accountRepository.findAll();
+         return list.stream().map((account)->mapper.maptoaccountdto(account)).collect(Collectors.toList());
+
     }
 }
